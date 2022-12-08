@@ -96,17 +96,18 @@ const addTasks = (task, flag) => {
     }
   };
 
-if(tasksCookie != ''){
-    tasks = decodeURI(tasksCookie);
-    tasks = tasks.split(',');
-    console.log(tasks);
-    for(var task of tasks){
-        console.log(task);
-        addTasks(task, 0);
+function checkTasks(){
+    if(tasksCookie != ''){
+        tasks = decodeURI(tasksCookie);
+        tasks = tasks.split(',');
+        console.log(tasks);
+        for(var task of tasks){
+            console.log(task);
+            addTasks(task, 0);
+        }
     }
 }
 
-checkComp();
 function checkComp(){
     if(compMissionCookie != ''){
         compMission = JSON.parse(compMissionCookie);
@@ -119,6 +120,7 @@ function checkComp(){
     }
 }
 
+checkTasks().then(function(result) {checkComp();});
 
 function setCookies(all, now){
     COOKIES.setCookie('taskAll', all);
