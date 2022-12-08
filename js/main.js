@@ -89,13 +89,14 @@ const addTasks = (task, flag) => {
     showButtonArea.appendChild(deleteButton);
 
     if(flag == 1){
-        tasks.push(escape(task));
-        COOKIES.setCookie('task', JSON.stringify(tasks));
+        tasks.push(task);
+        COOKIES.setCookie('task', encodeURI(tasks.toString()));
     }
   };
 
 if(tasksCookie != ''){
-    tasks = unescape(JSON.parse(tasksCookie));
+    tasks = decodeURI(tasksCookie);
+    console.log(tasks);
     for(var task of tasks){
         console.log(task);
         addTasks(task, 0);
