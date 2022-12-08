@@ -104,6 +104,10 @@ function checkTasks(){
             addTasks(task, 0);
         }
     }
+    return new Promise(function(callback) {
+        setTimeout(function() {
+            callback(data * 2);
+        }, Math.random() * 1000)});
 }
 
 function checkComp(){
@@ -118,7 +122,10 @@ function checkComp(){
     }
 }
 
-checkTasks().then(function(result) {checkComp();});
+checkTasks().then(response =>  {checkComp();})
+.catch(error => {
+    console.log('error: ', error);
+});
 
 function setCookies(all, now){
     COOKIES.setCookie('taskAll', all);
