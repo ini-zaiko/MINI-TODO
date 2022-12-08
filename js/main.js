@@ -24,17 +24,19 @@ var COOKIES = COOKIES || {
     },
     /*
      指定したcookieを追加する関数
-     第1引数=追加するcookiename;第2引数=追加するcookievalue;第3引数=cookieの有効期限(day)
+     第1引数=追加するcookiename;第2引数=追加するcookievalue;第3引数=cookieの有効期限はカットしたので固定で日付変更（朝9時）まで
     */
-    setCookie: function(cName, cValue, cTime) {
+    setCookie: function(cName, cValue) {
         var cookie_name = cName;
         var cookie_Value = cValue;
         var cookie_domain = location.hostname;
-        var cookie_time = cTime ? (60 * 60 * 24) * cTime : '';
+        var date = new Date();
+        var now = date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate();
         if(cookie_name == '' || cookie_name == null) {
             console.log('COOKIES.setCookie：第1引数に値を代入してください。')
         } else {
-            document.cookie = cookie_name + '=' + cookie_Value + ';domain=' + cookie_domain + ';max-age=' + cookie_time;
+            console.log('lets set:' + now);
+            document.cookie = cookie_name + '=' + cookie_Value + ';domain=' + cookie_domain + ';expires=' + now;
         }
     },
     /*
@@ -46,7 +48,7 @@ var COOKIES = COOKIES || {
         if(cookie_name == '' || cookie_name == null) {
             console.log('COOKIES.deleteCookie：引数に値を代入してください。');
         } else {
-            COOKIES.setCookie(cookie_name, '', 0);
+            COOKIES.setCookie(cookie_name, '');
         }
     }
 };
@@ -55,13 +57,17 @@ var taskAll = COOKIES.getCookie('taskAll');
 var taskNow = COOKIES.getCookie('taskNow');
 var compMission = COOKIES.getCookie('compMission');
 
-if(!taskNow){
+function setCookies(all, now){
+    COOKIES.setCookie('taskAll', all);
+    COOKIES.setCookie('taskNow', now);
+}
+
+if(taskNow == ''){
     taskAll = taskAllCon;
     taskNow = taskNowCon;
     compMission = compMissionCon;
-    COOKIES.setCookie('taskAll', taskAll, 1);
-    COOKIES.setCookie('taskNow', taskNow, 1);
-    COOKIES.setCookie('compMission', compMission, 1);
+    console.log("taslAll:" + taskAll + "; taskNow:" + taskNow + "; compMission:" + compMission);
+    setCookies(taskAll, taskNow);
 }
 
 function done(button, num){
@@ -70,6 +76,8 @@ function done(button, num){
     button.setAttribute('class', 'btn-white');
     button.innerHTML = "完了";
     compMission.push(num);
+    COOKIES.setCookie('taskNow', taskNow);
+    COOKIES.setCookie('compMission', compMission);
     if (taskAll == taskNow) {
         reward.disabled = false;
     }
