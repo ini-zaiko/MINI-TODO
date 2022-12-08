@@ -90,12 +90,14 @@ const addTasks = (task, flag) => {
 
     if(flag == 1){
         tasks.push(task);
+        tasks = ['寝る', '起きる'];
         COOKIES.setCookie('task', encodeURI(tasks.toString()));
     }
   };
 
 if(tasksCookie != ''){
     tasks = decodeURI(tasksCookie);
+    tasks = tasks.split(',');
     console.log(tasks);
     for(var task of tasks){
         console.log(task);
