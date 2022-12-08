@@ -55,8 +55,12 @@ var COOKIES = COOKIES || {
 
 var taskAll = COOKIES.getCookie('taskAll');
 var taskNow = COOKIES.getCookie('taskNow');
-var compMission = JSON.parse(COOKIES.getCookie('compMission'));
+var compMissionCookie = COOKIES.getCookie('compMission');
+var compMission = compMissionCon;
 
+if(compMission != ''){
+    compMission = JSON.parse(compMissionCookie);
+}
 function setCookies(all, now){
     COOKIES.setCookie('taskAll', all);
     COOKIES.setCookie('taskNow', now);
@@ -65,7 +69,7 @@ function setCookies(all, now){
 if(taskNow == ''){
     taskAll = taskAllCon;
     taskNow = taskNowCon;
-    compMission = compMissionCon;
+    //compMission = compMissionCon;
     console.log("taslAll:" + taskAll + "; taskNow:" + taskNow + "; compMission:" + compMission);
     setCookies(taskAll, taskNow);
 }
@@ -96,7 +100,7 @@ if(taskAll == taskNow){
     reward.innerHTML = "リワードを受け取りました！";
 }
 
-if(compMission != compMissionCon){
+if(compMission.length != 0){
     for (const mission of compMission) {
         var button = document.getElementsByClassName('done-btn')[mission];
         button.disabled = true;
