@@ -114,6 +114,7 @@ function checkTasks(){
 function checkComp(){
     if(compMissionCookie != ''){
         compMission = JSON.parse(compMissionCookie);
+        console.log("compMission:" + compMission);
             for (var mission of compMission) {
                 var button = document.getElementsByClassName('done-btn')[Number(mission)];
                 button.disabled = true;
@@ -123,16 +124,8 @@ function checkComp(){
     }else{console.log('else');}
 }
 
-var check = checkTasks().then(response =>  {
-    console.log(response);
-})
-.catch(error => {
-    console.log('error: ', error);
-})
-.finally(() => {
-    checkComp();
-    console.log('comp');
-});
+
+checkTasks();
 
 function setCookies(all, now){
     COOKIES.setCookie('taskAll', all);
@@ -189,3 +182,7 @@ taskSubmit.addEventListener('click', evt => {
   addTasks(task, 1);
   taskValue.value = '';
 });
+
+window.addEventListener("load", function() {
+    checkComp();
+ });
