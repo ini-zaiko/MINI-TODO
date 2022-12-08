@@ -82,9 +82,11 @@ const addTasks = (task, flag) => {
     const showButtonArea = showItem.appendChild(buttonItem);
     const deleteButton = document.createElement('button');
     deleteButton.innerHTML = '挑戦';
+
+    var taskNum = taskAll - 1;
   
     // 削除ボタンをクリックし、イベントを発動（タスクが削除）
-    deleteButton.setAttribute('onclick', 'done(this,' + taskAll + ' )');
+    deleteButton.setAttribute('onclick', 'done(this,' + taskNum + ' )');
     deleteButton.setAttribute('class', 'done-btn btn-warning')
     showButtonArea.appendChild(deleteButton);
 
@@ -118,12 +120,18 @@ function checkComp(){
                 button.setAttribute('class', 'done-btn btn-white');
                 button.innerHTML = "完了";
             }
-    }
+    }else{console.log('else');}
 }
 
-checkTasks().then(response =>  {checkComp();})
+var check = checkTasks().then(response =>  {
+    console.log(response);
+})
 .catch(error => {
     console.log('error: ', error);
+})
+.finally(() => {
+    checkComp();
+    console.log('comp');
 });
 
 function setCookies(all, now){
