@@ -91,8 +91,6 @@ const addTasks = (task, flag) => {
     if(flag == 1){
         tasks.push(task);
         COOKIES.setCookie('task', encodeURI(tasks.toString()));
-    }else{
-        checkComp();
     }
   };
 
