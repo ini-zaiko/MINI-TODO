@@ -53,33 +53,88 @@ var COOKIES = COOKIES || {
     }
 };
 
-var taskAll = COOKIES.getCookie('taskAll');
-var taskNow = COOKIES.getCookie('taskNow');
+var taskAllCookie = COOKIES.getCookie('taskAll');
+var taskNowCookie = COOKIES.getCookie('taskNow');
 var compMissionCookie = COOKIES.getCookie('compMission');
+var taskAll = taskAllCon;
+var taskNow = taskNowCon;
 var compMission = compMissionCon;
 
-if(compMission != ''){
-    compMission = JSON.parse(compMissionCookie);
+var tasksCookie = COOKIES.getCookie('task');
+var tasks = [];
+
+// 追加ボタンを作成
+const addTasks = (task, flag) => {
+    // 入力したタスクを追加・表示
+    taskAll += 1;
+    const listItem = document.createElement('div');
+    listItem.setAttribute('class', 'row border');
+    const showItem = taskList.appendChild(listItem);
+  
+    const taskItem = document.createElement('div');
+    taskItem.setAttribute('class', 'col-9 d-flex align-items-center');
+    const showTask = showItem.appendChild(taskItem);
+    showTask.innerHTML = task;
+  
+    // タスクに削除ボタンを付与
+    const buttonItem = document.createElement('div');
+    buttonItem.setAttribute('class', 'col-3 d-flex align-items-center justify-content-center');
+    const showButtonArea = showItem.appendChild(buttonItem);
+    const deleteButton = document.createElement('button');
+    deleteButton.innerHTML = '挑戦';
+  
+    // 削除ボタンをクリックし、イベントを発動（タスクが削除）
+    deleteButton.setAttribute('onclick', 'done(this,' + taskAll + ' )');
+    deleteButton.setAttribute('class', 'done-btn btn-warning')
+    showButtonArea.appendChild(deleteButton);
+
+    if(flag == 1){
+        tasks.push(task);
+        COOKIES.setCookie('task', JSON.stringify(escpe(tasks)));
+    }
+  };
+
+if(tasksCookie != ''){
+    tasks = unescape(JSON.parse(tasksCookie));
+    for(var task of tasks){
+        addTasks(task, 0);
+    }
 }
+
+
+if(compMissionCookie != ''){
+    compMission = JSON.parse(compMissionCookie);
+        for (var mission of compMission) {
+            var button = document.getElementsByClassName('done-btn')[Number(mission)];
+            button.disabled = true;
+            button.setAttribute('class', 'done-btn btn-white');
+            button.innerHTML = "完了";
+        }
+}
+
+
 function setCookies(all, now){
     COOKIES.setCookie('taskAll', all);
     COOKIES.setCookie('taskNow', now);
 }
 
-if(taskNow == ''){
+if(taskNowCookie == ''){
     taskAll = taskAllCon;
     taskNow = taskNowCon;
-    //compMission = compMissionCon;
-    console.log("taslAll:" + taskAll + "; taskNow:" + taskNow + "; compMission:" + compMission);
     setCookies(taskAll, taskNow);
+}else{
+    taskAll = Number(taskAllCookie);
+    taskNow = Number(taskNowCookie);
 }
 
 function done(button, num){
     taskNow += 1;
     button.disabled = true;
-    button.setAttribute('class', 'btn-white');
+    button.setAttribute('class', 'done-btn btn-white');
     button.innerHTML = "完了";
     compMission.push(num);
+
+    console.log("taslAll:" + taskAll + "; taskNow:" + taskNow + "; compMission:" + compMission);
     COOKIES.setCookie('taskNow', taskNow);
     COOKIES.setCookie('compMission', JSON.stringify(compMission));
     if (taskAll == taskNow) {
@@ -100,33 +155,6 @@ if(taskAll == taskNow){
     reward.innerHTML = "リワードを受け取りました！";
 }
 
-if(compMission.length != 0){
-    for (const mission of compMission) {
-        var button = document.getElementsByClassName('done-btn')[mission];
-        button.disabled = true;
-        button.setAttribute('class', 'btn-white');
-        button.innerHTML = "完了";
-    }
-}
-
-// 追加ボタンを作成
-const addTasks = (task) => {
-  // 入力したタスクを追加・表示
-  taskAll += 1;
-  const listItem = document.createElement('li');
-  const showItem = taskList.appendChild(listItem);
-  showItem.innerHTML = task;
-
-  // タスクに削除ボタンを付与
-  const deleteButton = document.createElement('button');
-  deleteButton.innerHTML = '挑戦';
-
-  // 削除ボタンをクリックし、イベントを発動（タスクが削除）
-  deleteButton.setAttribute('onclick', 'done(this,' + taskAll + ' )');
-  deleteButton.setAttribute('class', 'done-btn btn-warning')
-  listItem.appendChild(deleteButton);
-};
-
 // 削除ボタンにタスクを消す機能を付与
 const deleteTasks = (deleteButton) => {
   const chosenTask = deleteButton.closest('li');
@@ -137,6 +165,6 @@ const deleteTasks = (deleteButton) => {
 taskSubmit.addEventListener('click', evt => {
   evt.preventDefault();
   const task = taskValue.value;
-  addTasks(task);
+  addTasks(task, 1);
   taskValue.value = '';
 });
