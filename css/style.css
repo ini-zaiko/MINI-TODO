@@ -1,0 +1,17 @@
+
+  
+  #table {
+    background-color: papayawhip;
+    border-radius: 1rem;
+    margin-top: 2rem;
+  }
+  
+  h2 {
+    padding: 1rem;
+  }
+  
+  li {
+    margin: 2rem 2rem 2rem 0;
+    display: flex;
+    justify-content: space-between;
+  }
