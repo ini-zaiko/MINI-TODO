@@ -95,6 +95,8 @@ const addTasks = (task, flag) => {
   };
 
 function checkTasks(){
+    return new Promise(function(callback) {
+    setTimeout(function() {
     if(tasksCookie != ''){
         tasks = decodeURI(tasksCookie);
         tasks = tasks.split(',');
@@ -104,10 +106,7 @@ function checkTasks(){
             addTasks(task, 0);
         }
     }
-    return new Promise(function(callback) {
-        setTimeout(function() {
-            callback(data * 2);
-        }, Math.random() * 1000)});
+    }, Math.random() * 1000)});
 }
 
 function checkComp(){
