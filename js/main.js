@@ -3,14 +3,73 @@ const taskSubmit = document.getElementsByClassName('task_submit')[0];
 const taskList = document.getElementsByClassName('task_list')[0];
 const reward = document.getElementById('reward');
 
-var taskAll = 3;
-var taskNow = 0;
+const taskAllCon = 3;
+const taskNowCon = 0;
+const compMissionCon = [];
 
-function done(button){
+var COOKIES = COOKIES || {
+    /*
+     指定したcookieの値を取得して返す関数
+     第1引数=取得したいcookiename
+    */
+    getCookie: function(cName) {
+        var cookie_name = cName;
+        if(cookie_name == '' || cookie_name == null) {
+            console.log('COOKIES.getCookie：引数に値を代入してください。');
+        } else {
+            var set_replace = '(?:(?:^|.*\s*)' + cookie_name + '\s*\=\s*([^;]*).*$)|^.*$';
+            var cookie_value = document.cookie.replace(new RegExp(set_replace), '$1');
+            return cookie_value;
+        }
+    },
+    /*
+     指定したcookieを追加する関数
+     第1引数=追加するcookiename;第2引数=追加するcookievalue;第3引数=cookieの有効期限(day)
+    */
+    setCookie: function(cName, cValue, cTime) {
+        var cookie_name = cName;
+        var cookie_Value = cValue;
+        var cookie_domain = location.hostname;
+        var cookie_time = cTime ? (60 * 60 * 24) * cTime : '';
+        if(cookie_name == '' || cookie_name == null) {
+            console.log('COOKIES.setCookie：第1引数に値を代入してください。')
+        } else {
+            document.cookie = cookie_name + '=' + cookie_Value + ';domain=' + cookie_domain + ';max-age=' + cookie_time;
+        }
+    },
+    /*
+     指定したcookieの値を削除する関数
+     第1引数=削除したいcookiename
+    */
+    deleteCookie: function(cName) {
+        var cookie_name = cName;
+        if(cookie_name == '' || cookie_name == null) {
+            console.log('COOKIES.deleteCookie：引数に値を代入してください。');
+        } else {
+            COOKIES.setCookie(cookie_name, '', 0);
+        }
+    }
+};
+
+var taskAll = COOKIES.getCookie('taskAll');
+var taskNow = COOKIES.getCookie('taskNow');
+var compMission = COOKIES.getCookie('compMission');
+
+if(!taskNow){
+    taskAll = taskAllCon;
+    taskNow = taskNowCon;
+    compMission = compMissionCon;
+    COOKIES.setCookie('taskAll', taskAll, 1);
+    COOKIES.setCookie('taskNow', taskNow, 1);
+    COOKIES.setCookie('compMission', compMission, 1);
+}
+
+function done(button, num){
     taskNow += 1;
     button.disabled = true;
-    button.setAttribute('class', 'btn');
+    button.setAttribute('class', 'btn-white');
     button.innerHTML = "完了";
+    compMission.push(num);
     if (taskAll == taskNow) {
         reward.disabled = false;
     }
@@ -21,6 +80,21 @@ function rewardGet(button){
     button.disabled = true;
     button.setAttribute('class', 'btn');
     button.innerHTML = "リワードを受け取りました！";
+}
+
+if(taskAll == taskNow){
+    reward.disabled = false;
+    reward.setAttribute('class', 'btn');
+    reward.innerHTML = "リワードを受け取りました！";
+}
+
+if(compMission != compMissionCon){
+    for (const mission of compMission) {
+        var button = document.getElementsByClassName('done-btn')[mission];
+        button.disabled = true;
+        button.setAttribute('class', 'btn-white');
+        button.innerHTML = "完了";
+    }
 }
 
 // 追加ボタンを作成
@@ -36,8 +110,8 @@ const addTasks = (task) => {
   deleteButton.innerHTML = '挑戦';
 
   // 削除ボタンをクリックし、イベントを発動（タスクが削除）
-  deleteButton.setAttribute('onclick', 'done(this)');
-  deleteButton.setAttribute('class', 'btn-warning')
+  deleteButton.setAttribute('onclick', 'done(this,' + taskAll + ' )');
+  deleteButton.setAttribute('class', 'done-btn btn-warning')
   listItem.appendChild(deleteButton);
 };
 
