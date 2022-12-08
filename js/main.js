@@ -91,6 +91,8 @@ const addTasks = (task, flag) => {
     if(flag == 1){
         tasks.push(task);
         COOKIES.setCookie('task', encodeURI(tasks.toString()));
+    }else{
+        checkComp();
     }
   };
 
@@ -104,15 +106,17 @@ if(tasksCookie != ''){
     }
 }
 
-
-if(compMissionCookie != ''){
-    compMission = JSON.parse(compMissionCookie);
-        for (var mission of compMission) {
-            var button = document.getElementsByClassName('done-btn')[Number(mission)];
-            button.disabled = true;
-            button.setAttribute('class', 'done-btn btn-white');
-            button.innerHTML = "完了";
-        }
+checkComp();
+function checkComp(){
+    if(compMissionCookie != ''){
+        compMission = JSON.parse(compMissionCookie);
+            for (var mission of compMission) {
+                var button = document.getElementsByClassName('done-btn')[Number(mission)];
+                button.disabled = true;
+                button.setAttribute('class', 'done-btn btn-white');
+                button.innerHTML = "完了";
+            }
+    }
 }
 
 
