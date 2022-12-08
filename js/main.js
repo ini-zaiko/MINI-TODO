@@ -55,7 +55,7 @@ var COOKIES = COOKIES || {
 
 var taskAll = COOKIES.getCookie('taskAll');
 var taskNow = COOKIES.getCookie('taskNow');
-var compMission = COOKIES.getCookie('compMission');
+var compMission = JSON.parse(COOKIES.getCookie('compMission'));
 
 function setCookies(all, now){
     COOKIES.setCookie('taskAll', all);
@@ -77,7 +77,7 @@ function done(button, num){
     button.innerHTML = "完了";
     compMission.push(num);
     COOKIES.setCookie('taskNow', taskNow);
-    COOKIES.setCookie('compMission', compMission);
+    COOKIES.setCookie('compMission', JSON.stringify(compMission));
     if (taskAll == taskNow) {
         reward.disabled = false;
     }
