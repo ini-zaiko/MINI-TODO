@@ -157,7 +157,9 @@ function done(button, num){
 }
 
 function rewardGet(button){
-    alert("あんたは天才");
+    var a = Math.floor( Math.random() * 9 ) ;
+    var member = ['💙', '💖', '💚', '💛', '💜', '🖤', '🧡', '🤍', '💌'];
+    alert(member[a] + ":君こそがMINIだ！");
     button.disabled = true;
     button.setAttribute('class', 'btn');
     button.innerHTML = "リワードを受け取りました！";
