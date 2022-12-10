@@ -1,6 +1,10 @@
 body{
     background-image: url(../img/bg.jpeg);
 }
+
+a {
+    color: midnightblue;
+}
   
   #table {
     background-color: papayawhip;
@@ -16,4 +20,9 @@ body{
     margin: 2rem 2rem 2rem 0;
     display: flex;
     justify-content: space-between;
+  }
+
+  .rewardImg {
+    width: 100%;
+    height: auto;
   }

@@ -74,7 +74,9 @@ const addTasks = (task, flag) => {
     const taskItem = document.createElement('div');
     taskItem.setAttribute('class', 'col-9 d-flex align-items-center');
     const showTask = showItem.appendChild(taskItem);
-    showTask.innerHTML = task;
+    const spanArea = document.createElement('span');
+    const showSpan = showTask.appendChild(spanArea);
+    showSpan.innerHTML = task;
   
     // タスクに削除ボタンを付与
     const buttonItem = document.createElement('div');
@@ -159,7 +161,9 @@ function done(button, num){
 function rewardGet(button){
     var a = Math.floor( Math.random() * 9 ) ;
     var member = ['💙', '💖', '💚', '💛', '💜', '🖤', '🧡', '🤍', '💌'];
-    alert(member[a] + ":君こそがMINIだ！");
+    //alert(member[a] + ":君こそがMINIだ！");
+    document.getElementById('person').innerHTML = member[a];
+    $('#rewardModal').modal('show');
     button.disabled = true;
     button.setAttribute('class', 'btn');
     button.innerHTML = "リワードを受け取りました！";
@@ -181,6 +185,10 @@ const deleteTasks = (deleteButton) => {
 taskSubmit.addEventListener('click', evt => {
   evt.preventDefault();
   const task = taskValue.value;
+  if(task ==''){
+    alert('ミッションの内容を入力してね');
+    return;
+  }
   addTasks(task, 1);
   taskValue.value = '';
 });
