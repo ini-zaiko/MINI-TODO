@@ -52,9 +52,9 @@ var COOKIES = COOKIES || {
     }
 };
 
-var taskAllCookie = COOKIES.getCookie('taskAll');
-var taskNowCookie = COOKIES.getCookie('taskNow');
-var compMissionCookie = COOKIES.getCookie('compMission');
+var taskAllCookie = COOKIES.getCookie('taskAllDl');
+var taskNowCookie = COOKIES.getCookie('taskNowDl');
+var compMissionCookie = COOKIES.getCookie('compMissionDl');
 var taskAll = taskAllCon;
 var taskNow = taskNowCon;
 var compMission = compMissionCon;
@@ -129,8 +129,8 @@ function checkComp(){
 checkTasks();
 
 function setCookies(all, now){
-    COOKIES.setCookie('taskAll', all);
-    COOKIES.setCookie('taskNow', now);
+    COOKIES.setCookie('taskAllDl', all);
+    COOKIES.setCookie('taskNowDl', now);
 }
 
 if(taskNowCookie == ''){
@@ -150,8 +150,8 @@ function done(button, num){
     compMission.push(num);
 
     console.log("taslAll:" + taskAll + "; taskNow:" + taskNow + "; compMission:" + compMission);
-    COOKIES.setCookie('taskNow', taskNow);
-    COOKIES.setCookie('compMission', JSON.stringify(compMission));
+    COOKIES.setCookie('taskNowDl', taskNow);
+    COOKIES.setCookie('compMissionDl', JSON.stringify(compMission));
     if (taskAll == taskNow) {
         reward.disabled = false;
     }
