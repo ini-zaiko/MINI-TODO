@@ -59,7 +59,7 @@ var taskAll = taskAllCon;
 var taskNow = taskNowCon;
 var compMission = compMissionCon;
 
-var tasksCookie = COOKIES.getCookie('task');
+var tasksCookie = COOKIES.getCookie('taskDl');
 var tasks = [];
 
 // 追加ボタンを作成
