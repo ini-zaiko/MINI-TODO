@@ -1,0 +1,32 @@
+body{
+    background-image: url(../img/heart.jpeg);
+}
+
+a {
+    color: blueviolet;
+}
+
+span{
+  color: black;
+}
+  
+  #table {
+    background-color: palevioletred;
+    border-radius: 1rem;
+    margin-top: 2rem;
+  }
+  
+  h2 {
+    padding: 1rem;
+  }
+  
+  li {
+    margin: 2rem 2rem 2rem 0;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .rewardImg {
+    width: 100%;
+    height: auto;
+  }
